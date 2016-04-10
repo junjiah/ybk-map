@@ -29,11 +29,11 @@ class BookmarkItem extends React.Component {
       <Card style={styles.card}>
         <h1 style={styles.restaurantName}>
           <a href={this.props.url}>
-            {this.props.restaurantName}
+            {this.props.name}
           </a>
         </h1>
         <p style={styles.categories}>
-          {this.props.categories}
+          { this.props.categories.join(', ') }
           <span style={styles.rating}>
             {this.props.rating}
           </span>
@@ -45,9 +45,10 @@ class BookmarkItem extends React.Component {
 }
 
 BookmarkItem.propTypes = {
-  restaurantName: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string.isRequired,
+  name: React.PropTypes.string.isRequired,
   url: React.PropTypes.string.isRequired,
-  categories: React.PropTypes.string.isRequired,
+  categories: React.PropTypes.array.isRequired,
   rating: React.PropTypes.number.isRequired,
 }
 

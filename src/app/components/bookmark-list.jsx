@@ -20,15 +20,17 @@ class BookmarkList extends React.Component {
 
   render() {
     const styles = this.getStyles();
+    const bookmarks = this.props.bookmarks;
     return (
       <div style={styles.container}>
-          { Array
-            .from(Array(10).keys())
-            .map((i) => <BookmarkItem />)
-          }
+          { bookmarks.map((b, i) => <BookmarkItem {...b} key={i} />) }
       </div>
     );
   }
+}
+
+BookmarkList.propTypes = {
+  bookmarks: React.PropTypes.array.isRequired
 }
 
 export default BookmarkList;

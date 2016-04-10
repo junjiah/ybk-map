@@ -1,5 +1,8 @@
+import alphaify from 'alphaify';
 import MapGL from 'react-map-gl';
 import React from 'react';
+import SVGOverlay from 'react-map-gl/src/overlays/svg.react';
+import transform from 'svg-transform';
 
 import config from '../config.js';
 
@@ -17,7 +20,9 @@ class YelpMap extends React.Component {
         zoom: 13,
         startDragLngLat: null,
         isDragging: false,
-      }
+      },
+      // TODO: configurable.
+      mapStyle: 'https://d30a60ek4m0pd6.cloudfront.net/mapdisplay-assets/stylesheet/stylesheet.json.gz',
     };
   }
 
@@ -26,26 +31,58 @@ class YelpMap extends React.Component {
       root: {
         height: '100vh',
         width: '100vw'
+      },
+      svgGroup: {
+        pointerEvents: 'all',
+        cursor: 'pointer'
+      },
+      circle: {
+        fill: alphaify('#D81100', 0.8),
       }
     });
   }
 
-  render() {
+  _redrawSVGOverlay(opt) {
     const styles = this.getStyles();
-    // Hard code 10 more px considering the overflowed sidebar.
-    const height = window.innerHeight + 10;
+    const bookmarksPoints = this.props.bookmarks.map((b, i) => {
+      return (
+        <circle
+          style={styles.circle}
+          r={10}
+          transform={transform([{translate: opt.project(b.location)}])}
+          key={i} />
+      );
+    });
     return (
-      <MapGL
-        {...this.state.viewport}
-        mapStyle={'https://d30a60ek4m0pd6.cloudfront.net/mapdisplay-assets/stylesheet/stylesheet.json.gz'}
-        width={window.innerWidth}
-        height={height}
-        mapboxApiAccessToken={mapboxApiAccessToken}
-        ignoreEmptyFeatures={false}
-        onChangeViewport={ (viewport) => this.setState({viewport}) } />
+      <g style={styles.svgGroup}>
+        {bookmarksPoints}
+      </g>
     );
   }
 
+  render() {
+    const styles = this.getStyles();
+    const viewport = Object.assign({}, this.state.viewport, this.props);
+    return (
+      <MapGL
+        {...viewport}
+        mapStyle={this.state.mapStyle}
+        mapboxApiAccessToken={mapboxApiAccessToken}
+        ignoreEmptyFeatures={false}
+        onChangeViewport={ (viewport) => this.setState({viewport}) }>
+        <SVGOverlay
+          {...viewport}
+          redraw={this._redrawSVGOverlay.bind(this)} />
+      </MapGL>
+    );
+  }
+
+}
+
+YelpMap.propTypes = {
+  bookmarks: React.PropTypes.array.isRequired,
+  width: React.PropTypes.number.isRequired,
+  height: React.PropTypes.number.isRequired,
 }
 
 export default YelpMap;
