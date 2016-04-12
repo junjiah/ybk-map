@@ -39,6 +39,7 @@ class BookmarkItem extends React.Component {
           </span>
         </p>
         Hello I'm a bookmark.
+        { this.props.selected ? 'Selected!' : '' }
       </Card>
     )
   }
@@ -50,6 +51,7 @@ BookmarkItem.propTypes = {
   url: React.PropTypes.string.isRequired,
   categories: React.PropTypes.array.isRequired,
   rating: React.PropTypes.number.isRequired,
-}
+  selected: React.PropTypes.bool,
+};
 
 export default BookmarkItem;

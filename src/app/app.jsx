@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, hashHistory } from 'react-router';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
 import AppRoutes from './app-routes.jsx';
+import YBK from './reducers';
 
 import '../less/main.less';
 
@@ -17,9 +20,13 @@ window.React = React;
 // https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin();
 
+let store = createStore(YBK);
+
 ReactDOM.render(
-  <Router history={hashHistory}>
-    {AppRoutes}
-  </Router>,
+  <Provider store={store}>
+    <Router history={hashHistory}>
+      {AppRoutes}
+    </Router>
+  </Provider>,
   document.getElementById('app')
 );

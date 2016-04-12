@@ -1,13 +1,17 @@
-import alphaify from 'alphaify';
 import MapGL from 'react-map-gl';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import SVGOverlay from 'react-map-gl/src/overlays/svg.react';
 import transform from 'svg-transform';
 
+import Circle from './circle.jsx';
 import config from '../config.js';
 
 const position = [37.7841393, -122.3957547];  // SF.
 const mapboxApiAccessToken = config.mapboxApiAccessToken;
+const screen = {
+  width: window.innerWidth,
+  height: window.innerHeight + 10,  // Hard code 10 more px for sidebar.
+};
 
 class YelpMap extends React.Component {
 
@@ -27,32 +31,25 @@ class YelpMap extends React.Component {
   }
 
   getStyles() {
-    return Object.freeze({
-      root: {
-        height: '100vh',
-        width: '100vw'
-      },
+    return {
       svgGroup: {
         pointerEvents: 'all',
-        cursor: 'pointer'
+        cursor: 'pointer',
       },
-      circle: {
-        fill: alphaify('#D81100', 0.8),
-      }
-    });
+    };
   }
 
   _redrawSVGOverlay(opt) {
     const styles = this.getStyles();
     const bookmarksPoints = this.props.bookmarks.map((b, i) => {
       return (
-        <circle
-          style={styles.circle}
-          r={10}
+        <Circle
+          selected={b.id === this.props.selectedBookmark}
           transform={transform([{translate: opt.project(b.location)}])}
           key={i} />
       );
     });
+
     return (
       <g style={styles.svgGroup}>
         {bookmarksPoints}
@@ -62,14 +59,13 @@ class YelpMap extends React.Component {
 
   render() {
     const styles = this.getStyles();
-    const viewport = Object.assign({}, this.state.viewport, this.props);
+    const viewport = Object.assign({}, this.state.viewport, screen);
     return (
       <MapGL
         {...viewport}
         mapStyle={this.state.mapStyle}
         mapboxApiAccessToken={mapboxApiAccessToken}
-        ignoreEmptyFeatures={false}
-        onChangeViewport={ (viewport) => this.setState({viewport}) }>
+        onChangeViewport={ (vp) => this.setState({viewport: vp}) }>
         <SVGOverlay
           {...viewport}
           redraw={this._redrawSVGOverlay.bind(this)} />
@@ -80,9 +76,11 @@ class YelpMap extends React.Component {
 }
 
 YelpMap.propTypes = {
-  bookmarks: React.PropTypes.array.isRequired,
-  width: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired,
-}
+  bookmarks: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    location: PropTypes.array.isRequired,  // [Lng, Lat].
+  }).isRequired).isRequired,
+  selectedBookmark: PropTypes.string,
+};
 
 export default YelpMap;
