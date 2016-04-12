@@ -27,6 +27,7 @@ class BookmarkList extends React.Component {
             <BookmarkItem
               {...b}
               selected={b.id === this.props.selectedBookmark}
+              onClick={() => this.props.onCardClick(b.id)}
               key={i} />) }
       </div>
     );
@@ -42,6 +43,7 @@ BookmarkList.propTypes = {
     url: PropTypes.string.isRequired,
   }).isRequired).isRequired,
   selectedBookmark: PropTypes.string,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 export default BookmarkList;

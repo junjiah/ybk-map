@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import { selectBookmark } from '../actions';
 import YelpMap from '../components/yelp-map.jsx';
 
 const mapStateToProps = (state) => ({
@@ -10,8 +11,15 @@ const mapStateToProps = (state) => ({
   selectedBookmark: state.selected,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onCircleClick: (id) => {
+    dispatch(selectBookmark(id))
+  }
+});
+
 const SelectableYelpMap = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(YelpMap);
 
 export default SelectableYelpMap;

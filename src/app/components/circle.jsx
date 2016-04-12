@@ -1,5 +1,5 @@
 import alphaify from 'alphaify';
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class Circle extends React.Component {
 
@@ -29,8 +29,7 @@ class Circle extends React.Component {
       <circle
         style={style}
         r={radius}
-        // transform={transform([{translate: opt.project(b.location)}])}
-        onClick={() => console.log('clicked a circle')}
+        onClick={this.props.onClick}
         transform={this.props.transform} />
     );
   }
@@ -38,8 +37,9 @@ class Circle extends React.Component {
 }
 
 Circle.propTypes = {
-  transform: React.PropTypes.string.isRequired,
-  selected: React.PropTypes.bool,
+  transform: PropTypes.string.isRequired,
+  selected: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Circle;

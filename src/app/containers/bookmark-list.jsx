@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import { selectBookmark } from '../actions';
 import BookmarkList from '../components/bookmark-list.jsx';
 
 const mapStateToProps = (state) => ({
@@ -13,8 +14,15 @@ const mapStateToProps = (state) => ({
   selectedBookmark: state.selected,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onCardClick: (id) => {
+    dispatch(selectBookmark(id))
+  }
+});
+
 const UpdatableBookmarkList = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(BookmarkList);
 
 export default UpdatableBookmarkList;

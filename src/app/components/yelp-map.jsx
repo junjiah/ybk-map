@@ -46,6 +46,7 @@ class YelpMap extends React.Component {
         <Circle
           selected={b.id === this.props.selectedBookmark}
           transform={transform([{translate: opt.project(b.location)}])}
+          onClick={() => this.props.onCircleClick(b.id)}
           key={i} />
       );
     });
@@ -81,6 +82,7 @@ YelpMap.propTypes = {
     location: PropTypes.array.isRequired,  // [Lng, Lat].
   }).isRequired).isRequired,
   selectedBookmark: PropTypes.string,
+  onCircleClick: PropTypes.func.isRequired,
 };
 
 export default YelpMap;

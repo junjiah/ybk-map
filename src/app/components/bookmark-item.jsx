@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Card } from 'belle';
 
 class BookmarkItem extends React.Component {
@@ -26,7 +26,7 @@ class BookmarkItem extends React.Component {
   render() {
     const styles = this.getStyles();
     return (
-      <Card style={styles.card}>
+      <Card style={styles.card} onClick={this.props.onClick}>
         <h1 style={styles.restaurantName}>
           <a href={this.props.url}>
             {this.props.name}
@@ -46,12 +46,13 @@ class BookmarkItem extends React.Component {
 }
 
 BookmarkItem.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  url: React.PropTypes.string.isRequired,
-  categories: React.PropTypes.array.isRequired,
-  rating: React.PropTypes.number.isRequired,
-  selected: React.PropTypes.bool,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
+  rating: PropTypes.number.isRequired,
+  selected: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default BookmarkItem;
