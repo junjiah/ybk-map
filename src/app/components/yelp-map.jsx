@@ -13,6 +13,18 @@ const screen = {
   height: window.innerHeight + 10,  // Hard code 10 more px for sidebar.
 };
 
+// From http://stackoverflow.com/a/7557433/2849480
+function inViewport($ele) {
+  const rect = $ele.get(0).getBoundingClientRect();
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= $(window).height() &&
+      // TODO: hard code the width of bookmark list to avoid overlapping.
+      rect.right <= $(window).width() - 500
+  );
+}
+
 class YelpMap extends React.Component {
 
   constructor(props) {
@@ -30,6 +42,26 @@ class YelpMap extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const newSelectedId = nextProps.selectedBookmark;
+    if (newSelectedId !== this.props.selectedBookmark) {
+      if (inViewport($(`#${newSelectedId}`))) {
+        // Already in view port, do nothing.
+        return;
+      }
+
+      // Another bookmark outside current viewport selected.
+      const bookmark = this.props.bookmarks.find(b => b.id === newSelectedId);
+      let newViewport = Object.assign({}, this.state.viewport, {
+        longitude: bookmark.location[0],
+        latitude: bookmark.location[1],
+      });
+      this.setState({
+        viewport: newViewport
+      });
+    }
+  }
+
   getStyles() {
     return {
       svgGroup: {
@@ -44,6 +76,7 @@ class YelpMap extends React.Component {
     const bookmarksPoints = this.props.bookmarks.map((b, i) => {
       return (
         <Circle
+          id={b.id}
           selected={b.id === this.props.selectedBookmark}
           transform={transform([{translate: opt.project(b.location)}])}
           onClick={() => this.props.onCircleClick(b.id)}

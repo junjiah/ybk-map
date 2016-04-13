@@ -29,6 +29,7 @@ class Circle extends React.Component {
       <circle
         style={style}
         r={radius}
+        id={this.props.id}
         onClick={this.props.onClick}
         transform={this.props.transform} />
     );
@@ -40,6 +41,7 @@ Circle.propTypes = {
   transform: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Circle;
