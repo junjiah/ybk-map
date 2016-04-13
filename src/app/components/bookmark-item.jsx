@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { Card } from 'belle';
 
 class BookmarkItem extends React.Component {
@@ -21,6 +22,23 @@ class BookmarkItem extends React.Component {
         fontWeight: 'bold'
       }
     };
+  }
+
+  componentDidUpdate() {
+    if (this.props.selected) {
+      // Scroll to the current selected item if not in view.
+      let $ele = $(ReactDOM.findDOMNode(this));
+      let $container = $ele.parent();
+
+      let scrollTop = $ele.offset().top - $container.offset().top;
+      scrollTop += $container.scrollTop();
+      // Scroll to the middle.
+      scrollTop -= (window.innerHeight / 2 - $ele.height() / 2);
+
+      $container.animate({
+        scrollTop
+      }, 1000);
+    }
   }
 
   render() {
