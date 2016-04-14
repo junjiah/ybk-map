@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 
-import { selectBookmark } from '../actions';
+import {
+  selectBookmark,
+  editBookmarkNote
+} from '../actions';
 import BookmarkList from '../components/bookmark-list.jsx';
 
 const mapStateToProps = (state) => ({
@@ -10,6 +13,7 @@ const mapStateToProps = (state) => ({
     categories: b.categories,
     rating: b.rating,
     url: b.url,
+    note: b.note,
   })),
   selectedBookmark: state.selected,
 });
@@ -17,6 +21,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onCardClick: (id) => {
     dispatch(selectBookmark(id))
+  },
+  onNoteSaved: (id, note) => {
+    dispatch(editBookmarkNote(id, note))
   }
 });
 
