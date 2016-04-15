@@ -14,6 +14,7 @@ class BookmarkList extends React.Component {
         position: 'absolute',
         margin: '8px 0 0 8px',
         overflowY: 'scroll',
+        paddingLeft: '20px',
       },
     };
   }

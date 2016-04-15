@@ -14,7 +14,7 @@ class BookmarkItem extends React.Component {
   }
 
   getStyles() {
-    return {
+    let styles = {
       card : {
         padding: '10px 20px',
         borderTop: '1px solid #f2f2f2',
@@ -45,6 +45,10 @@ class BookmarkItem extends React.Component {
         fontSize: '16px',
       },
     };
+    if (this.props.selected) {
+      styles.card.transform = 'translate3d(-20px, -0px, 0px)';
+    }
+    return Object.freeze(styles);
   }
 
   componentDidUpdate() {
