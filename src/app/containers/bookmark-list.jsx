@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import api from '../api.js';
 import {
   selectBookmark,
   editBookmarkNote
@@ -24,6 +25,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onNoteSaved: (id, note) => {
     dispatch(editBookmarkNote(id, note))
+    api.postNote({id, note}, null, () => {
+      alert(`Failed to save note "${note}" for ${id}`);
+    });
   }
 });
 

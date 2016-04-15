@@ -1,13 +1,13 @@
-import mockBookmarks from '../mock-bookmarks.jsx';
+import api from '../api.js';
 
-const initBookmarks = mockBookmarks.map(b => Object.assign({}, b, {note: ''}));
-
-export const bookmarks = (state = initBookmarks, action) => {
+export const bookmarks = (state = [], action) => {
   switch (action.type) {
     case 'EDIT_BOOKMARK_NOTE':
       return state.map(b => (
         b.id === action.id ? Object.assign({}, b, {note: action.note}) : b
-      ))
+      ));
+    case 'INIT_BOOKMARKS':
+      return action.bookmarks;
     default:
       return state;
   }

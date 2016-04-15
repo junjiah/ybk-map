@@ -4,6 +4,8 @@ import { Router, hashHistory } from 'react-router';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
+import api from './api.js';
+import { initBookmarks } from './actions';
 import AppRoutes from './app-routes.jsx';
 import YBK from './reducers';
 
@@ -21,6 +23,16 @@ window.React = React;
 injectTapEventPlugin();
 
 let store = createStore(YBK);
+
+// Fetch init bookmarks!
+api.getBookmarks(bookmarks => {
+  api.getNotes(notes => {
+    for (let b of bookmarks) {
+      b.note = notes.hasOwnProperty(b.id) ? notes[b.id] : '';
+    }
+    store.dispatch(initBookmarks(bookmarks));
+  }, () => alert('Failed to fetch notes!'))
+}, () => alert('Failed to fetch bookmarks!'));
 
 ReactDOM.render(
   <Provider store={store}>
