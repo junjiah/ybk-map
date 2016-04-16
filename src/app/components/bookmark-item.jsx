@@ -44,6 +44,11 @@ class BookmarkItem extends React.Component {
         whiteSpace: "pre-wrap",
         fontSize: '16px',
       },
+      link: {
+        color: '#8F8F8F',
+        textDecoration: 'none',
+        transition: 'color 200ms ease-in-out',
+      },
     };
     if (this.props.selected) {
       styles.card.transform = 'translate3d(-20px, -0px, 0px)';
@@ -65,6 +70,18 @@ class BookmarkItem extends React.Component {
       $container.animate({
         scrollTop
       }, 250);
+    }
+  }
+
+  _onClickCard(e) {
+    // Ignore if during editing.
+    if (this.state.isEditing) {
+      return;
+    }
+    // Hack, only consider certain areas.
+    let acceptable = ['H3', 'P', 'DIV'];
+    if (acceptable.indexOf(e.target.tagName) !== -1) {
+      this.props.onClick();
     }
   }
 
@@ -108,7 +125,7 @@ class BookmarkItem extends React.Component {
     return (
       <Card
         style={styles.card}
-        onClick={this.props.onClick}
+        onClick={this._onClickCard.bind(this)}
         // Use CSS hover trict to display edit button.
         className="bookmark-card">
         <button
@@ -121,7 +138,8 @@ class BookmarkItem extends React.Component {
           <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
         </button>
         <h3 style={styles.restaurantName}>
-          <a href={this.props.url}>
+          { /* Add class name to handle ':hover' pseudo class. */}
+          <a href={this.props.url} target="_blank" style={styles.link} className="link">
             {this.props.name}
           </a>
         </h3>

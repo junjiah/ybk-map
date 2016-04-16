@@ -16,7 +16,12 @@ export const bookmarks = (state = [], action) => {
 export const selected = (state = null, action) => {
   switch (action.type) {
     case 'SELECT_BOOKMARK':
-      return action.id;
+      if (state === action.id) {
+        // Unselect.
+        return null;
+      } else {
+        return action.id;
+      }
     default:
       return state;
   }

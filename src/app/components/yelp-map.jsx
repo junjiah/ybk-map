@@ -44,7 +44,8 @@ class YelpMap extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const newSelectedId = nextProps.selectedBookmark;
-    if (newSelectedId !== this.props.selectedBookmark) {
+    // Also need to check `newSelectedId` is not null.
+    if (newSelectedId && newSelectedId !== this.props.selectedBookmark) {
       if (inViewport($(`#${newSelectedId}`))) {
         // Already in view port, do nothing.
         return;
