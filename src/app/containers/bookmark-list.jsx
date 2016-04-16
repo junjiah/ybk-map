@@ -24,10 +24,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(selectBookmark(id))
   },
   onNoteSaved: (id, note) => {
-    dispatch(editBookmarkNote(id, note))
-    api.postNote({id, note}, null, () => {
-      alert(`Failed to save note "${note}" for ${id}`);
-    });
+    api.postNote({id, note},
+      // Done.
+      () => { dispatch(editBookmarkNote(id, note)) },
+      // Fail.
+      () => { alert(`Failed to save note "${note}" for ${id}`) });
   }
 });
 
