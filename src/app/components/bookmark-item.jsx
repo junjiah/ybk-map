@@ -74,22 +74,24 @@ class BookmarkItem extends React.Component {
   }
 
   _onClickCard(e) {
-    // Ignore if during editing.
-    if (this.state.isEditing) {
+    // Ignore if during editing when selected.
+    if (this.state.isEditing && this.props.selected) {
       return;
     }
-    // Hack, only consider certain areas.
-    let acceptable = ['H3', 'P', 'DIV'];
-    if (acceptable.indexOf(e.target.tagName) !== -1) {
-      this.props.onClick();
-    }
+    this.props.onClick();
   }
 
   _onClickEditButton(e) {
+    // Do not toggle selection if already selected.
+    if (this.props.selected) {
+      e.stopPropagation();
+    }
     this.setState({isEditing: true});
   }
 
   _onNoteSaved(e) {
+    // Do not affect 'selected' property.
+    e.stopPropagation();
     const newNoteContent = this.refs.editNoteInput.getValue();
     this.setState({isEditing: false});
     this.props.onNoteSaved(this.props.id, newNoteContent);

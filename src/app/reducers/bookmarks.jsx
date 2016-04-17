@@ -22,6 +22,9 @@ export const selected = (state = null, action) => {
       } else {
         return action.id;
       }
+    case 'EDIT_BOOKMARK_NOTE':
+      // Focus on currently selected bookmark.
+      return action.id;
     default:
       return state;
   }
