@@ -38,7 +38,11 @@ api.getBookmarks(bookmarks => {
       const id = note['bookmark_id'];
       let b = bookmarkMap.get(id);
       if (b) {
-        Object.assign(b, note);
+        Object.assign(b, {
+          context: note.context,
+          review: note.review,
+          mark: note.mark,
+        });
       }
     }
     const bookmarkList = Array.from(bookmarkMap.values());

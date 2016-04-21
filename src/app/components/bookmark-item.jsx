@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Card from 'material-ui/lib/card/card';
-import CardText from 'material-ui/lib/card/card-text';
 import TextField from 'material-ui/lib/text-field';
 
 class BookmarkItem extends React.Component {
@@ -26,6 +25,7 @@ class BookmarkItem extends React.Component {
       },
       categories: {
         color: 'grey',
+        textAlign: 'right',
       },
       rating: {
         fontWeight: 'bold',
@@ -89,39 +89,56 @@ class BookmarkItem extends React.Component {
     this.setState({isEditing: true});
   }
 
-  _onNoteSaved(e) {
+  _onSaved(e) {
     // Do not affect 'selected' property.
     e.stopPropagation();
-    const newNoteContent = this.refs.editNoteInput.getValue();
     this.setState({isEditing: false});
-    this.props.onNoteSaved(this.props.id, newNoteContent);
+
+    const newContext = this.refs.editContextInput.getValue();
+    if (newContext != this.props.context) {
+      this.props.onSaved(this.props.id, 'context', newContext);
+    }
+    const newReview = this.refs.editReviewInput.getValue();
+    if (newReview != this.props.review) {
+      this.props.onSaved(this.props.id, 'review', newReview);
+    }
   }
 
   render() {
     const styles = this.getStyles();
 
-    let note;
+    let review, context;
     if (this.state.isEditing) {
-      note = (
+      context = (
+        <TextField
+          name={`context:${this.props.id}`}
+          ref="editContextInput"
+          defaultValue={this.props.context}
+          fullWidth={true}
+          multiLine={true} />
+      );
+
+      review = (
         <div>
           <TextField
-            ref="editNoteInput"
-            id={this.props.id}
-            defaultValue={this.props.note}
+            name={`review:${this.props.id}`}
+            ref="editReviewInput"
+            defaultValue={this.props.review}
             fullWidth={true}
             multiLine={true} />
           <button
             type="button"
             className="btn btn-default"
-            aria-label="Save Note"
+            aria-label="Save"
             style={styles.saveNoteButton}
-            onClick={this._onNoteSaved.bind(this)}>
+            onClick={this._onSaved.bind(this)}>
             <span className="glyphicon glyphicon-send" aria-hidden="true"></span>
           </button>
         </div>
       );
     } else {
-      note = (<p style={styles.note}>{this.props.note}</p>);
+      context = (<p style={styles.note}>{this.props.context}</p>);
+      review = (<p style={styles.note}>{this.props.review}</p>)
     }
 
     return (
@@ -140,7 +157,7 @@ class BookmarkItem extends React.Component {
           <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
         </button>
         <h3 style={styles.restaurantName}>
-          { /* Add class name to handle ':hover' pseudo class. */}
+          {/* Add class name to handle ':hover' pseudo class. */}
           <a href={this.props.url} target="_blank" style={styles.link} className="link">
             {this.props.name}
           </a>
@@ -151,7 +168,16 @@ class BookmarkItem extends React.Component {
             {this.props.rating}
           </span>
         </p>
-        {note}
+        {
+          this.props.context || this.state.isEditing ?
+            (<h5 style={{color: '#7A8B8C'}}>Context</h5>) : undefined
+        }
+        {context}
+        {
+          this.props.review || this.state.isEditing ?
+            (<h5 style={{color: '#7A8B8C'}}>Review</h5>) : undefined
+        }
+        {review}
       </Card>
     )
   }
@@ -166,7 +192,16 @@ BookmarkItem.propTypes = {
   selected: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
   note: PropTypes.string.isRequired,
-  onNoteSaved: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
+  // Properties from new design.
+  context: PropTypes.string,
+  review: PropTypes.string,
+  mark: PropTypes.string,
+};
+BookmarkItem.defaultProps = {
+  context: '',
+  review: '',
+  mark: '',
 };
 
 export default BookmarkItem;

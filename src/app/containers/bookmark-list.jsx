@@ -15,6 +15,9 @@ const mapStateToProps = (state) => ({
     rating: b.rating,
     url: b.url,
     note: b.note,
+    context: b.context,
+    review: b.review,
+    mark: b.mark,
   })),
   selectedBookmark: state.selected,
 });
@@ -23,12 +26,12 @@ const mapDispatchToProps = (dispatch) => ({
   onCardClick: (id) => {
     dispatch(selectBookmark(id))
   },
-  onNoteSaved: (id, note) => {
-    api.postNote({id, note},
+  onSaved: (id, contentType, content) => {
+    api.editNote({id, contentType, content},
       // Done.
-      () => { dispatch(editBookmarkNote(id, note)) },
+      () => { dispatch(editBookmarkNote(id, contentType, content)) },
       // Fail.
-      () => { alert(`Failed to save note "${note}" for ${id}`) });
+      () => { alert(`Failed to save ${contentType} for ${id}`) });
   }
 });
 

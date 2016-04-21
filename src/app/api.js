@@ -22,11 +22,11 @@ const api = Object.freeze({
     }).done(result => done(result)).fail(fail);
   },
 
-  postNote({id, note}, done, fail) {
+  editNote({id, contentType, content}, done, fail) {
     $.ajax({
       type: 'POST',
       url,
-      data: `id=${id}&note=${note}`,
+      data: `id=${id}&type=${contentType}&content=${content}`,
       dataType: 'text',
       crossDomain: true,
     }).done(done).fail(fail);

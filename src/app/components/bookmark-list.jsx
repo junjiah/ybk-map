@@ -29,7 +29,7 @@ class BookmarkList extends React.Component {
               {...b}
               selected={b.id === this.props.selectedBookmark}
               onClick={() => this.props.onCardClick(b.id)}
-              onNoteSaved={this.props.onNoteSaved}
+              onSaved={this.props.onSaved}
               key={i} />) }
       </div>
     );
@@ -37,17 +37,10 @@ class BookmarkList extends React.Component {
 }
 
 BookmarkList.propTypes = {
-  bookmarks: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired,  // [string].
-    rating: PropTypes.number.isRequired,
-    url: PropTypes.string.isRequired,
-    note: PropTypes.string.isRequired,
-  }).isRequired).isRequired,
+  bookmarks: PropTypes.array.isRequired,
   selectedBookmark: PropTypes.string,
   onCardClick: PropTypes.func.isRequired,
-  onNoteSaved: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
 };
 
 export default BookmarkList;

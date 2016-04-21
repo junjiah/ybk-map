@@ -8,8 +8,9 @@ export const selectBookmark = (id) => ({
   id,
 });
 
-export const editBookmarkNote = (id, note) => ({
+export const editBookmarkNote = (id, contentType, content) => ({
   type: 'EDIT_BOOKMARK_NOTE',
   id,
-  note,
+  contentType,
+  content,
 });
