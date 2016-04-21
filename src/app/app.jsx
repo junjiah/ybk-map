@@ -27,10 +27,22 @@ let store = createStore(YBK);
 // Fetch init bookmarks!
 api.getBookmarks(bookmarks => {
   api.getNotes(notes => {
+    // A map keyed on bookmark ID.
+    let bookmarkMap = new Map();
     for (let b of bookmarks) {
-      b.note = notes.hasOwnProperty(b.id) ? notes[b.id] : '';
+      bookmarkMap.set(b.id, Object.assign({}, b, {
+        note: '',  // TODO: compatibility.
+      }));
     }
-    store.dispatch(initBookmarks(bookmarks));
+    for (let note of notes) {
+      const id = note['bookmark_id'];
+      let b = bookmarkMap.get(id);
+      if (b) {
+        Object.assign(b, note);
+      }
+    }
+    const bookmarkList = Array.from(bookmarkMap.values());
+    store.dispatch(initBookmarks(bookmarkList));
   }, () => alert('Failed to fetch notes!'))
 }, () => alert('Failed to fetch bookmarks!'));
 
