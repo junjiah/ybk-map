@@ -1,8 +1,6 @@
 import config from './config.js';
 
-const url = config.debug ?
-    'http://localhost:8080/Request.php?' : '/slack/Request.php?';
-
+const url = config.endpoint;
 const api = Object.freeze({
   getBookmarks(done, fail) {
     $.ajax({
