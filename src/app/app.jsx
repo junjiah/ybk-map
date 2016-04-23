@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, hashHistory } from 'react-router';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
 import api from './api.js';
 import { initBookmarks } from './actions';
-import AppRoutes from './app-routes.jsx';
+import Master from './components/master.jsx';
 import YBK from './reducers';
 
 import '../less/main.less';
@@ -50,9 +49,7 @@ api.getBookmarks(bookmarks => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory}>
-      {AppRoutes}
-    </Router>
+    <Master />
   </Provider>,
   document.getElementById('app')
 );
