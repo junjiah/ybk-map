@@ -14,7 +14,6 @@ const mapStateToProps = (state) => ({
     categories: b.categories,
     rating: b.rating,
     url: b.url,
-    note: b.note,
     context: b.context,
     review: b.review,
     mark: b.mark,

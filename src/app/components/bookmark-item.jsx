@@ -151,7 +151,7 @@ class BookmarkItem extends React.Component {
           type="button"
           // Only display when hovering over the card.
           className="btn btn-default edit-note-button"
-          aria-label="Edit Note"
+          aria-label="Edit"
           style={styles.editNoteButton}
           onClick={this._onClickEditButton.bind(this)}>
           <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -191,9 +191,7 @@ BookmarkItem.propTypes = {
   rating: PropTypes.number.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
-  note: PropTypes.string.isRequired,
   onSaved: PropTypes.func.isRequired,
-  // Properties from new design.
   context: PropTypes.string,
   review: PropTypes.string,
   mark: PropTypes.string,

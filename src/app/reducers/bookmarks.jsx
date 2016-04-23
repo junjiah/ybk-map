@@ -3,8 +3,9 @@ import api from '../api.js';
 export const bookmarks = (state = [], action) => {
   switch (action.type) {
     case 'EDIT_BOOKMARK_NOTE':
-      let updated = {};
-      updated[action.contentType] = action.content;
+      const updated = {
+        [action.contentType]: action.content
+      };
       return state.map(b => (
         b.id === action.id ? Object.assign({}, b, updated) : b
       ));

@@ -30,9 +30,7 @@ api.getBookmarks(bookmarks => {
     // A map keyed on bookmark ID.
     let bookmarkMap = new Map();
     for (let b of bookmarks) {
-      bookmarkMap.set(b.id, Object.assign({}, b, {
-        note: '',  // TODO: compatibility.
-      }));
+      bookmarkMap.set(b.id, b);
     }
     for (let note of notes) {
       const id = note['bookmark_id'];
