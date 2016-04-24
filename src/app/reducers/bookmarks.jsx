@@ -1,11 +1,9 @@
 export const bookmarks = (state = [], action) => {
   switch (action.type) {
     case 'EDIT_BOOKMARK_NOTE':
-      const updated = {
-        [action.contentType]: action.content
-      };
       return state.map(b => (
-        b.id === action.id ? Object.assign({}, b, updated) : b
+        // Overwrite with updated content.
+        b.id === action.id ? Object.assign({}, b, action.updated) : b
       ));
     case 'INIT_BOOKMARKS':
       return action.bookmarks;

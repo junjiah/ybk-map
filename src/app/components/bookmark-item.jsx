@@ -94,13 +94,18 @@ class BookmarkItem extends React.Component {
     e.stopPropagation();
     this.setState({isEditing: false});
 
+    let updated = {};
     const newContext = this.refs.editContextInput.getValue();
     if (newContext != this.props.context) {
-      this.props.onSaved(this.props.id, 'context', newContext);
+      updated['context'] = newContext;
     }
     const newReview = this.refs.editReviewInput.getValue();
     if (newReview != this.props.review) {
-      this.props.onSaved(this.props.id, 'review', newReview);
+      updated['review'] = newReview;
+    }
+
+    if (updated) {
+      this.props.onSaved(this.props.id, updated);
     }
   }
 

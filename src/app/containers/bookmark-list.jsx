@@ -25,12 +25,17 @@ const mapDispatchToProps = (dispatch) => ({
   onCardClick: (id) => {
     dispatch(selectBookmark(id))
   },
-  onSaved: (id, contentType, content) => {
-    api.editNote({id, contentType, content}).then(
-      // Done.
-      () => { dispatch(editBookmarkNote(id, contentType, content)) },
+  onSaved: (id, updated) => {
+    // Map to request promises.
+    const promises = Object.keys(updated).map(contentType => {
+      const content = updated[contentType];
+      return api.editNote({id, contentType, content});
+    });
+    Promise.all(promises).then(
+      // Success.
+      () => { dispatch(editBookmarkNote(id, updated)) },
       // Fail.
-      () => { alert(`Failed to save ${contentType} for ${id}`) }
+      () => { alert(`Failed to save content for bookmark ${id}`) }
     );
   }
 });
