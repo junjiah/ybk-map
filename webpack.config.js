@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
   context: __dirname + '/src',
   entry: {
-    javascript: './app/app.jsx',
+    javascript: ['babel-polyfill', './app/app.jsx'],
     html: './www/index.html',
   },
 

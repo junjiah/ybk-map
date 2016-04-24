@@ -1,5 +1,3 @@
-import api from '../api.js';
-
 export const bookmarks = (state = [], action) => {
   switch (action.type) {
     case 'EDIT_BOOKMARK_NOTE':

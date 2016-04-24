@@ -24,28 +24,35 @@ injectTapEventPlugin();
 let store = createStore(YBK);
 
 // Fetch init bookmarks!
-api.getBookmarks(bookmarks => {
-  api.getNotes(notes => {
-    // A map keyed on bookmark ID.
-    let bookmarkMap = new Map();
-    for (let b of bookmarks) {
-      bookmarkMap.set(b.id, b);
-    }
-    for (let note of notes) {
-      const id = note['bookmark_id'];
-      let b = bookmarkMap.get(id);
-      if (b) {
-        Object.assign(b, {
-          context: note.context,
-          review: note.review,
-          mark: note.mark,
-        });
+Promise
+  .all([api.getBookmarks(), api.getNotes()])
+  .then(
+    // Success.
+    results => {
+      let bookmarks = results[0];
+      let notes = results[1];
+      // A map keyed on bookmark ID.
+      let bookmarkMap = new Map();
+      for (let b of bookmarks) {
+        bookmarkMap.set(b.id, b);
       }
-    }
-    const bookmarkList = Array.from(bookmarkMap.values());
-    store.dispatch(initBookmarks(bookmarkList));
-  }, () => alert('Failed to fetch notes!'))
-}, () => alert('Failed to fetch bookmarks!'));
+      for (let note of notes) {
+        const id = note['bookmark_id'];
+        let b = bookmarkMap.get(id);
+        if (b) {
+          Object.assign(b, {
+            context: note.context,
+            review: note.review,
+            mark: note.mark,
+          });
+        }
+      }
+      const bookmarkList = Array.from(bookmarkMap.values());
+      store.dispatch(initBookmarks(bookmarkList));
+    },
+    // Failure.
+    () => alert('Failed to fetch bookmarks/notes!')
+  );
 
 ReactDOM.render(
   <Provider store={store}>
