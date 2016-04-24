@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Card from 'material-ui/lib/card/card';
 import TextField from 'material-ui/lib/text-field';
 
+const good = 'good', bad = 'bad';
+
 class BookmarkItem extends React.Component {
 
   constructor(props) {
@@ -16,7 +18,6 @@ class BookmarkItem extends React.Component {
     let styles = {
       card : {
         padding: '10px 20px',
-        borderTop: '1px solid #f2f2f2',
         marginBottom: '10px',
       },
       restaurantName: {
@@ -32,7 +33,10 @@ class BookmarkItem extends React.Component {
         marginLeft: '10px',
       },
       editNoteButton: {
-        float: 'right!important',
+        border: 0,
+        float: 'right',
+        marginLeft: '2px',
+        marginRight: '2px',
       },
       saveNoteButton: {
         border: 'none',
@@ -49,9 +53,19 @@ class BookmarkItem extends React.Component {
         textDecoration: 'none',
         transition: 'color 200ms ease-in-out',
       },
+      buttonGroup: {
+        position: 'relative',
+        top: '-4px',
+        right: '-16px',
+      },
     };
     if (this.props.selected) {
       styles.card.transform = 'translate3d(-20px, -0px, 0px)';
+    }
+    if (this.props.mark === bad) {
+      styles.card.backgroundColor = '#ffe6e6';
+    } else if (this.props.mark === good) {
+      styles.card.backgroundColor = '#b3ffb3';
     }
     return Object.freeze(styles);
   }
@@ -87,6 +101,21 @@ class BookmarkItem extends React.Component {
       e.stopPropagation();
     }
     this.setState({isEditing: true});
+  }
+
+  _onClickMarkButton(e, mark) {
+    // Do not toggle selection if already selected.
+    if (this.props.selected) {
+      e.stopPropagation();
+    }
+    // Support toggling.
+    let newMark;
+    if (this.props.mark === mark) {
+      newMark = {mark: ''};
+    } else {
+      newMark = {mark};
+    }
+    this.props.onSaved(this.props.id, newMark);
   }
 
   _onSaved(e) {
@@ -152,15 +181,33 @@ class BookmarkItem extends React.Component {
         onClick={this._onClickCard.bind(this)}
         // Use CSS hover trict to display edit button.
         className="bookmark-card">
-        <button
-          type="button"
-          // Only display when hovering over the card.
-          className="btn btn-default edit-note-button"
-          aria-label="Edit"
-          style={styles.editNoteButton}
-          onClick={this._onClickEditButton.bind(this)}>
-          <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-        </button>
+        <div style={styles.buttonGroup}>
+          <button
+            type="button"
+            // Only display when hovering over the card.
+            className="btn btn-default hover-note-button"
+            aria-label="Edit Note"
+            style={styles.editNoteButton}
+            onClick={this._onClickEditButton.bind(this)}>
+            <span className="glyphicon glyphicon-pencil" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="btn btn-default hover-note-button"
+            aria-label="Good one!"
+            style={styles.editNoteButton}
+            onClick={(e) => this._onClickMarkButton(e, good)}>
+            <span className="glyphicon glyphicon-thumbs-up" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="btn btn-default hover-note-button"
+            aria-label="Nehh"
+            style={styles.editNoteButton}
+            onClick={(e) => this._onClickMarkButton(e, bad)}>
+            <span className="glyphicon glyphicon-thumbs-down" aria-hidden="true" />
+          </button>
+        </div>
         <h3 style={styles.restaurantName}>
           {/* Add class name to handle ':hover' pseudo class. */}
           <a href={this.props.url} target="_blank" style={styles.link} className="link">

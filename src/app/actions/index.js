@@ -12,7 +12,6 @@ export const selectBookmark = (id) => ({
  *
  * @param {string} id - Bookmark ID.
  * @param {object} updated - Bookmark content to update, keyed on content type.
- * @return {object} Emitted action.
  */
 export const editBookmarkNote = (id, updated) => ({
   type: 'EDIT_BOOKMARK_NOTE',
