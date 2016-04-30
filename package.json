@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --hot --inline --progress --colors --history-api-fallback --port 8100",
     "build": "webpack --progress --colors",
-    "prod": "webpack --progress --colors --optimize-minimize"
+    "prod": "webpack --progress  --define process.env.NODE_ENV='\"production\"' --colors --optimize-minimize"
   },
   "repository": {
     "type": "git",
