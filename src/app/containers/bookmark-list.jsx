@@ -8,18 +8,8 @@ import {
 import BookmarkList from '../components/bookmark-list.jsx';
 
 const mapStateToProps = (state) => {
-  const visibleBookmarks = state.bookmarks.filter(b => b.visible);
   return {
-    bookmarks: visibleBookmarks.map(b => ({
-      id: b.id,
-      name: b.name,
-      categories: b.categories,
-      rating: b.rating,
-      url: b.url,
-      context: b.context,
-      review: b.review,
-      mark: b.mark,
-    })),
+    bookmarks: state.bookmarks.filter(b => b.visible),
     selectedBookmark: state.selected,
   };
 };
