@@ -7,6 +7,13 @@ export const bookmarks = (state = [], action) => {
       ));
     case 'INIT_BOOKMARKS':
       return action.bookmarks;
+    case 'SEARCH_BOOKMARK':
+      return state.map(b =>
+        Object.assign(
+          {},
+          b,
+          { visible: b.name.toLowerCase().includes(action.text.toLowerCase()) })
+      );
     default:
       return state;
   }

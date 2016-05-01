@@ -7,23 +7,26 @@ import {
 } from '../actions';
 import BookmarkList from '../components/bookmark-list.jsx';
 
-const mapStateToProps = (state) => ({
-  bookmarks: state.bookmarks.map(b => ({
-    id: b.id,
-    name: b.name,
-    categories: b.categories,
-    rating: b.rating,
-    url: b.url,
-    context: b.context,
-    review: b.review,
-    mark: b.mark,
-  })),
-  selectedBookmark: state.selected,
-});
+const mapStateToProps = (state) => {
+  const visibleBookmarks = state.bookmarks.filter(b => b.visible);
+  return {
+    bookmarks: visibleBookmarks.map(b => ({
+      id: b.id,
+      name: b.name,
+      categories: b.categories,
+      rating: b.rating,
+      url: b.url,
+      context: b.context,
+      review: b.review,
+      mark: b.mark,
+    })),
+    selectedBookmark: state.selected,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   onCardClick: (id) => {
-    dispatch(selectBookmark(id))
+    dispatch(selectBookmark(id));
   },
   onSaved: (id, updated) => {
     // Map to request promises.

@@ -35,6 +35,8 @@ Promise
       let bookmarkMap = new Map();
       for (let b of bookmarks) {
         bookmarkMap.set(b.id, b);
+        // Add another field to indicate display or not.
+        b.visible = true;
       }
       for (let note of notes) {
         const id = note['bookmark_id'];

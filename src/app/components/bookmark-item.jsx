@@ -121,7 +121,6 @@ class BookmarkItem extends React.Component {
   _onSaved(e) {
     // Do not affect 'selected' property.
     e.stopPropagation();
-    this.setState({isEditing: false});
 
     let updated = {};
     const newContext = this.refs.editContextInput.getValue();
@@ -133,9 +132,11 @@ class BookmarkItem extends React.Component {
       updated['review'] = newReview;
     }
 
-    if (updated) {
-      this.props.onSaved(this.props.id, updated);
-    }
+    this.setState({ isEditing: false }, () => {
+      if (updated) {
+        this.props.onSaved(this.props.id, updated);
+      }
+    });
   }
 
   render() {
