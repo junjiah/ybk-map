@@ -4,7 +4,7 @@ import { selectBookmark } from '../actions';
 import YelpMap from '../components/yelp-map.jsx';
 
 const mapStateToProps = (state) => ({
-  bookmarks: state.bookmarks.map(b => ({
+  bookmarks: state.bookmarks.filter(b => b.visible).map(b => ({
     id: b.id,
     location: [b.longitude, b.latitude],
   })),
