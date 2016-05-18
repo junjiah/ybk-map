@@ -221,16 +221,18 @@ class BookmarkItem extends React.Component {
             {this.props.rating}
           </span>
         </p>
-        {
-          this.props.context || this.state.isEditing ?
-            (<h5 style={{color: '#7A8B8C'}}>Context</h5>) : undefined
-        }
-        {context}
-        {
-          this.props.review || this.state.isEditing ?
-            (<h5 style={{color: '#7A8B8C'}}>Review</h5>) : undefined
-        }
-        {review}
+        <div className="bookmark-custom-content">
+          {
+            this.props.context || this.state.isEditing ?
+              (<h5 style={{color: '#7A8B8C'}}>Context</h5>) : undefined
+          }
+          {context}
+          {
+            this.props.review || this.state.isEditing ?
+              (<h5 style={{color: '#7A8B8C'}}>Review</h5>) : undefined
+          }
+          {review}
+        </div>
       </Card>
     )
   }

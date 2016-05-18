@@ -17,3 +17,36 @@ body {
 a.link:hover {
   color: #227EC0 !important;
 }
+
+
+// Styles in mobile or small screen.
+@media screen and (max-width: 500px) {
+  .bookmark-list {
+    top: auto !important;
+    height: 100px !important;
+    bottom: 0 !important;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .bookmark-card {
+    display: inline-table;
+    transform: none !important;
+  }
+
+  .bookmark-card h3 {
+    font-size: 18px;
+  }
+
+  .bookmark-card:hover .hover-note-button {
+    display: none !important;
+  }
+
+  .bookmark-custom-content {
+    display: none;
+  }
+}

@@ -23,7 +23,7 @@ class BookmarkList extends React.Component {
     const styles = this.getStyles();
     const bookmarks = this.props.bookmarks;
     return (
-      <div style={styles.container}>
+      <div style={styles.container} className="bookmark-list">
           { bookmarks.map((b, i) =>
             <BookmarkItem
               {...b}
