@@ -76,14 +76,28 @@ class BookmarkItem extends React.Component {
       let $ele = $(ReactDOM.findDOMNode(this));
       let $container = $ele.parent();
 
-      let scrollTop = $ele.offset().top - $container.offset().top;
-      scrollTop += $container.scrollTop();
-      // Scroll to the middle.
-      scrollTop -= (window.innerHeight / 2 - $ele.height() / 2);
+      // Fixme: a hack to determine mobile or desktop.
+      const mobile = $container.css('display') === 'flex';
 
-      $container.animate({
-        scrollTop
-      }, 250);
+      if (!mobile) {
+        let scrollTop = $ele.offset().top - $container.offset().top;
+        scrollTop += $container.scrollTop();
+        // Scroll to the middle.
+        scrollTop -= (window.innerHeight / 2 - $ele.height() / 2);
+
+        $container.animate({
+          scrollTop
+        }, 250);
+      } else {
+        let scrollLeft = $ele.offset().left - $container.offset().left;
+        scrollLeft += $container.scrollLeft();
+        // Scroll to the middle.
+        scrollLeft -= (window.innerWidth - $ele.outerWidth()) / 2;
+
+        $container.animate({
+          scrollLeft
+        }, 250);
+      }
     }
   }
 
