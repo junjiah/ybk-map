@@ -94,9 +94,7 @@ class BookmarkItem extends React.Component {
         // Scroll to the middle.
         scrollLeft -= (window.innerWidth - $ele.outerWidth()) / 2;
 
-        $container.animate({
-          scrollLeft
-        }, 250);
+        $container.scrollLeft(scrollLeft);
       }
     }
   }
