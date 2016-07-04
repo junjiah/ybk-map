@@ -39,3 +39,14 @@ export const searchBookmark = (text) => ({
   type: 'SEARCH_BOOKMARK',
   text
 });
+
+/**
+ * Action for bookmark filtering.
+ *
+ * @param  {object} filters - An object keyed on 3 different filters:
+ *     'good', 'bad', 'willTry'.
+ */
+export const filterBookmark = (filters) => ({
+  type: 'FILTER_BOOKMARK',
+  filters
+});

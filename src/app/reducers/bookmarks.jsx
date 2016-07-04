@@ -9,7 +9,14 @@ export const bookmarks = (state = [], action) => {
       return action.bookmarks;
     case 'SEARCH_BOOKMARK':
       return state.map(b =>
-        Object.assign({}, b, { visible: matchSearch(action.text, b) })
+        Object.assign({}, b,
+          { visible: matchSearch(action.text, b) })
+      );
+    case 'FILTER_BOOKMARK':
+      const filters = action.filters;
+      return state.map(b =>
+        Object.assign({}, b,
+          { visible: b.mark ? filters[b.mark] : filters.willTry })
       );
     default:
       return state;

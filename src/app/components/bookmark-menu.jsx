@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Checkbox from 'material-ui/lib/checkbox';
 import IconButton from 'material-ui/lib/icon-button';
 import TextField from 'material-ui/lib/text-field';
 import Paper from 'material-ui/lib/paper';
@@ -18,6 +19,12 @@ class BookmarkMenu extends React.Component {
       isFiltering: false,
       isSorting: false,
       isShowingAbout: false,
+
+      filters: {
+        good: true,
+        bad: true,
+        willTry: true,
+      }
     }
   }
 
@@ -36,10 +43,23 @@ class BookmarkMenu extends React.Component {
       },
       popover: {
         marginLeft:'8px',
+        display: 'flex',
       },
       searchBox: {
         paddingLeft: '12px',
         fontSize: 'large',
+        width: '264px',
+      },
+      checkboxContainer: {
+        paddingLeft: '6px',
+        fontSize: '20px',
+      },
+      checkbox: {
+        float: 'left',
+        width: '1%',
+        margin: '6px !important',
+        marginRight: '20px !important',
+        paddingTop: '5px',
       }
     };
   }
@@ -50,7 +70,7 @@ class BookmarkMenu extends React.Component {
       if (isSearching) {
         // Clicked to close the search box. Reset search filter.
         this.props.onUpdateSearchBox('');
-      }else {
+      } else {
         // Focus on input.
         document.getElementById('search-box').focus();
       }
@@ -59,6 +79,30 @@ class BookmarkMenu extends React.Component {
 
   _onSearchContentChanged(e, searchText) {
     this.props.onUpdateSearchBox(searchText);
+  }
+
+  _onClickFilterBox() {
+    const { isFiltering }= this.state;
+    let newState = { isFiltering: !isFiltering };
+    let callback = () => {};
+    if (isFiltering) {
+      // Clicked to close the filter box. Reset filters.
+      const filters = { good: true, bad: true, willTry: true };
+      newState.filters = filters;
+      callback = () => this.props.onUpdateFilterCheckbox(filters);
+    }
+
+    this.setState(newState, callback);
+  }
+
+  _onCheckFilter(name) {
+    return (e, checked) => {
+      const filters = Object.assign(
+        {}, this.state.filters, { [name]: checked });
+      this.setState({ filters }, () => {
+        this.props.onUpdateFilterCheckbox(filters);
+      });
+    }
   }
 
   render() {
@@ -86,9 +130,33 @@ class BookmarkMenu extends React.Component {
               style={styles.searchBox}
               onChange={this._onSearchContentChanged.bind(this)}/>
           </Popover>
-          <IconButton title="Filter" data-toggle="tooltip">
+          <IconButton
+            title="Filter" data-toggle="tooltip" id="filter-button"
+            onTouchTap={this._onClickFilterBox.bind(this)} >>
             <FilterIcon />
           </IconButton>
+          <Popover
+            open={this.state.isFiltering}
+            useLayerForClickAway={false}
+            anchorEl={document.getElementById('filter-button')}
+            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            style={styles.popover} >
+            <div style={styles.checkboxContainer}>
+                <Checkbox
+                  label={<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true" />}
+                  style={styles.checkbox} onCheck={this._onCheckFilter('good')}
+                  defaultChecked />
+                <Checkbox
+                  label={<span className="glyphicon glyphicon-thumbs-down" aria-hidden="true" />}
+                  style={styles.checkbox} onCheck={this._onCheckFilter('bad')}
+                  defaultChecked />
+                <Checkbox
+                  label={<span className="glyphicon glyphicon-eye-open" aria-hidden="true" />}
+                  style={styles.checkbox} onCheck={this._onCheckFilter('willTry')}
+                  defaultChecked />
+            </div>
+          </Popover>
           <IconButton title="Sort" data-toggle="tooltip">
             <SortIcon />
           </IconButton>
@@ -103,6 +171,7 @@ class BookmarkMenu extends React.Component {
 
 BookmarkMenu.propTypes = {
   onUpdateSearchBox: PropTypes.func.isRequired,
+  onUpdateFilterCheckbox: PropTypes.func.isRequired,
 };
 
 export default BookmarkMenu;
