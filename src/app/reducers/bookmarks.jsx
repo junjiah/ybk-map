@@ -9,10 +9,7 @@ export const bookmarks = (state = [], action) => {
       return action.bookmarks;
     case 'SEARCH_BOOKMARK':
       return state.map(b =>
-        Object.assign(
-          {},
-          b,
-          { visible: b.name.toLowerCase().includes(action.text.toLowerCase()) })
+        Object.assign({}, b, { visible: matchSearch(action.text, b) })
       );
     default:
       return state;
@@ -35,3 +32,31 @@ export const selected = (state = null, action) => {
       return state;
   }
 };
+
+/**
+ * Match a bookmark with the input search string.
+ *
+ * Match by simple boolean AND, while token such as 'c:ramen' will try to match
+ * categories.
+ *
+ * @param {string} searchStr - Input string to search.
+ * @param {object} bookmark - Model of bookmark.
+ */
+function matchSearch(searchStr, bookmark) {
+  const categories = bookmark.categories.map(s => s.toLowerCase());
+  const name = bookmark.name.toLowerCase();
+  for (const token of searchStr.toLowerCase().split(/ +/)) {
+    if (token.startsWith('c:')) {
+      // Match by category.
+      if (!categories.some(c => c.startsWith(token.substr(2)))) {
+        return false;
+      }
+    } else {
+      // Match by name.
+      if (!name.includes(token)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
