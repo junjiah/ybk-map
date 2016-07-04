@@ -1,13 +1,16 @@
 import { connect } from 'react-redux';
 
 import { selectBookmark } from '../actions';
+import { Visibility } from '../util';
 import YelpMap from '../components/yelp-map.jsx';
 
 const mapStateToProps = (state) => ({
-  bookmarks: state.bookmarks.filter(b => b.visible).map(b => ({
-    id: b.id,
-    location: [b.longitude, b.latitude],
-  })),
+  bookmarks: state.bookmarks
+    .filter(b => b.visible == Visibility.VISIBLE)
+    .map(b => ({
+      id: b.id,
+      location: [b.longitude, b.latitude],
+    })),
   selectedBookmark: state.selected,
 });
 

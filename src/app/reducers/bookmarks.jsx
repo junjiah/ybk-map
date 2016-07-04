@@ -1,3 +1,5 @@
+import { Visibility } from '../util';
+
 export const bookmarks = (state = [], action) => {
   switch (action.type) {
     case 'EDIT_BOOKMARK_NOTE':
@@ -16,7 +18,7 @@ export const bookmarks = (state = [], action) => {
       const filters = action.filters;
       return state.map(b =>
         Object.assign({}, b,
-          { visible: b.mark ? filters[b.mark] : filters.willTry })
+          { visible: matchFilters(action.filters, b) })
       );
     default:
       return state;
@@ -48,6 +50,7 @@ export const selected = (state = null, action) => {
  *
  * @param {string} searchStr - Input string to search.
  * @param {object} bookmark - Model of bookmark.
+ * @returns {Visibility} - Bitmask of visibility.
  */
 function matchSearch(searchStr, bookmark) {
   const categories = bookmark.categories.map(s => s.toLowerCase());
@@ -56,14 +59,35 @@ function matchSearch(searchStr, bookmark) {
     if (token.startsWith('c:')) {
       // Match by category.
       if (!categories.some(c => c.startsWith(token.substr(2)))) {
-        return false;
+        return bookmark.visible | Visibility.FILTER_BY_SEARCH;
       }
     } else {
       // Match by name.
       if (!name.includes(token)) {
-        return false;
+        return bookmark.visible | Visibility.FILTER_BY_SEARCH;
       }
     }
   }
-  return true;
+  // Unfilter.
+  return bookmark.visible & ~Visibility.FILTER_BY_SEARCH;
+}
+
+/**
+ * Match a bookmark with filters.
+ *
+ * @param {object} filters - An object keyed on 'good', 'bad' and 'willTry'.
+ * @param {object} bookmark - Model of bookmark
+ * @returns {Visibility} - Bitmask of visibility.
+ */
+function matchFilters(filters, bookmark) {
+  if (bookmark.mark && !filters[bookmark.mark]) {
+    // Marked and should filter.
+    return bookmark.visible | Visibility.FILTER_BY_MARK;
+  } else if (!bookmark.mark && !filters.willTry) {
+    // Not marked and should filter.
+    return bookmark.visible | Visibility.FILTER_BY_MARK;
+  } else {
+    // Unfilter.
+    return bookmark.visible & ~Visibility.FILTER_BY_MARK;
+  }
 }

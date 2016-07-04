@@ -4,7 +4,9 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
 import api from './api.js';
+import { Visibility } from './util';
 import { initBookmarks } from './actions';
+
 import Master from './components/master.jsx';
 import YBK from './reducers';
 
@@ -36,7 +38,7 @@ Promise
       for (let b of bookmarks) {
         bookmarkMap.set(b.id, b);
         // Add another field to indicate display or not.
-        b.visible = true;
+        b.visible = Visibility.VISIBLE;
       }
       for (let note of notes) {
         const id = note['bookmark_id'];
