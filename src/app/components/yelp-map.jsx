@@ -38,7 +38,7 @@ class YelpMap extends React.Component {
         isDragging: false,
       },
       // TODO: configurable.
-      mapStyle: 'https://d30a60ek4m0pd6.cloudfront.net/mapdisplay-assets/stylesheet/stylesheet.json.gz',
+      mapStyle: 'mapbox://styles/mapbox/dark-v9',
     };
   }
 
