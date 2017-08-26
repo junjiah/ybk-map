@@ -55,6 +55,7 @@
     "style-loader": "^0.13.0",
     "svg-transform": "0.0.3",
     "transform-loader": "^0.2.3",
+    "util": "^0.10.0",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
     "webworkify-webpack": "^1.0.6"

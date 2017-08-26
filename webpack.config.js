@@ -1,15 +1,15 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
-  context: __dirname + '/src',
+  context: `${__dirname}/src`,
   entry: {
     javascript: ['babel-polyfill', './app/app.jsx'],
-    html: './www/index.html',
+    html: './www/index.html'
   },
 
   output: {
     filename: 'app.js',
-    path: __dirname + '/dist',
+    path: `${__dirname}/dist`
   },
 
   module: {
@@ -20,43 +20,43 @@ module.exports = {
         loader: 'babel',
         query: {
           presets: ['react', 'es2015']
-        },
+        }
       },
       {
         test: /\.html$/,
-        loader: 'file?name=[name].[ext]',
+        loader: 'file?name=[name].[ext]'
       },
       {
         test: /\.less$/,
-        loader: 'style!css!less',
+        loader: 'style!css!less'
       },
       // MapGL specific.
       {
         test: /\.js$/,
         include: path.resolve(__dirname, 'node_modules/mapbox-gl/js/render/shaders.js'),
-        loader: 'transform/cacheable?brfs',
+        loader: 'transform/cacheable?brfs'
       },
       {
         test: /\.js$/,
         include: path.resolve(__dirname, 'node_modules/webworkify/index.js'),
-        loader: 'worker',
+        loader: 'worker'
       },
       {
         test: /\.json$/,
-        loader: 'json-loader',
+        loader: 'json-loader'
       }
-    ],
+    ]
   },
 
   node: {
     console: true,
-    fs: 'empty',
+    fs: 'empty'
   },
 
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      webworkify: 'webworkify-webpack',
-    },
-  },
-}
+      webworkify: 'webworkify-webpack'
+    }
+  }
+};
