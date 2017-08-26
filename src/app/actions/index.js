@@ -5,7 +5,7 @@
  */
 export const initBookmarks = (bookmarks) => ({
   type: 'INIT_BOOKMARKS',
-  bookmarks,
+  bookmarks
 });
 
 /**
@@ -15,7 +15,7 @@ export const initBookmarks = (bookmarks) => ({
  */
 export const selectBookmark = (id) => ({
   type: 'SELECT_BOOKMARK',
-  id,
+  id
 });
 
 /**

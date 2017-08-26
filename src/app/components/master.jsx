@@ -9,13 +9,12 @@ class Master extends React.Component {
   getStyles() {
     return Object.freeze({
       root: {
-        minHeight: '100vh',
+        minHeight: '100vh'
       }
     });
   }
 
   render() {
-    const styles = this.getStyles();
     return (
       <div>
         <UpdatableBookmarkMenu />

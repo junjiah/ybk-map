@@ -1,3 +1,4 @@
+/* global $ */
 import config from './config.js';
 
 const url = config.endpoint;
@@ -8,9 +9,9 @@ const api = Object.freeze({
         type: 'GET',
         url: `${url}json=bookmarks`,
         dataType: 'json',
-        crossDomain: true,
+        crossDomain: true
       }).done(resolve).fail(reject);
-    })
+    });
   },
 
   getNotes() {
@@ -19,7 +20,7 @@ const api = Object.freeze({
         type: 'GET',
         url: `${url}json=notes`,
         dataType: 'json',
-        crossDomain: true,
+        crossDomain: true
       }).done(resolve).fail(reject);
     });
   },
@@ -31,10 +32,10 @@ const api = Object.freeze({
         url,
         data: `id=${id}&type=${contentType}&content=${content}`,
         dataType: 'text',
-        crossDomain: true,
+        crossDomain: true
       }).done(resolve).fail(reject);
     });
-  },
+  }
 });
 
 export default api;

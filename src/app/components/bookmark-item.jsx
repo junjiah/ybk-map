@@ -1,63 +1,65 @@
-import React, { PropTypes } from 'react';
+/* global $ */
+import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import Card from 'material-ui/lib/card/card';
 import TextField from 'material-ui/lib/text-field';
 
-const good = 'good', bad = 'bad';
+const good = 'good';
+const bad = 'bad';
 
 class BookmarkItem extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false,
+      isEditing: false
     };
   }
 
   getStyles() {
-    let styles = {
-      card : {
+    const styles = {
+      card: {
         padding: '10px 20px',
-        marginBottom: '10px',
+        marginBottom: '10px'
       },
       restaurantName: {
         marginTop: '10px',
-        marginBottom: '10px',
+        marginBottom: '10px'
       },
       categories: {
         color: 'grey',
-        textAlign: 'right',
+        textAlign: 'right'
       },
       rating: {
         fontWeight: 'bold',
-        marginLeft: '10px',
+        marginLeft: '10px'
       },
       editNoteButton: {
         border: 0,
         float: 'right',
         marginLeft: '2px',
-        marginRight: '2px',
+        marginRight: '2px'
       },
       saveNoteButton: {
         border: 'none',
         marginTop: '11px',
         paddingLeft: '6px',
-        paddingRight: '10px',
+        paddingRight: '10px'
       },
       note: {
-        whiteSpace: "pre-wrap",
-        fontSize: '16px',
+        whiteSpace: 'pre-wrap',
+        fontSize: '16px'
       },
       link: {
         color: '#8F8F8F',
         textDecoration: 'none',
-        transition: 'color 200ms ease-in-out',
+        transition: 'color 200ms ease-in-out'
       },
       buttonGroup: {
         position: 'relative',
         top: '-4px',
-        right: '-16px',
-      },
+        right: '-16px'
+      }
     };
     if (this.props.selected) {
       styles.card.transform = 'translate3d(-20px, -0px, 0px)';
@@ -73,8 +75,8 @@ class BookmarkItem extends React.Component {
   componentDidUpdate() {
     if (this.props.selected) {
       // Scroll to the current selected item if not in view.
-      let $ele = $(ReactDOM.findDOMNode(this));
-      let $container = $ele.parent();
+      const $ele = $(ReactDOM.findDOMNode(this));
+      const $container = $ele.parent();
 
       // Fixme: a hack to determine mobile or desktop.
       const mobile = $container.css('display') === 'flex';
@@ -134,17 +136,17 @@ class BookmarkItem extends React.Component {
     // Do not affect 'selected' property.
     e.stopPropagation();
 
-    let updated = {};
+    const updated = {};
     const newContext = this.refs.editContextInput.getValue();
-    if (newContext != this.props.context) {
-      updated['context'] = newContext;
+    if (newContext !== this.props.context) {
+      updated.context = newContext;
     }
     const newReview = this.refs.editReviewInput.getValue();
-    if (newReview != this.props.review) {
-      updated['review'] = newReview;
+    if (newReview !== this.props.review) {
+      updated.review = newReview;
     }
 
-    this.setState({ isEditing: false }, () => {
+    this.setState({isEditing: false}, () => {
       if (updated) {
         this.props.onSaved(this.props.id, updated);
       }
@@ -154,7 +156,8 @@ class BookmarkItem extends React.Component {
   render() {
     const styles = this.getStyles();
 
-    let review, context;
+    let review;
+    let context;
     if (this.state.isEditing) {
       context = (
         <TextField
@@ -179,13 +182,13 @@ class BookmarkItem extends React.Component {
             aria-label="Save"
             style={styles.saveNoteButton}
             onClick={this._onSaved.bind(this)}>
-            <span className="glyphicon glyphicon-send" aria-hidden="true"></span>
+            <span className="glyphicon glyphicon-send" aria-hidden="true" />
           </button>
         </div>
       );
     } else {
       context = (<p style={styles.note}>{this.props.context}</p>);
-      review = (<p style={styles.note}>{this.props.review}</p>)
+      review = (<p style={styles.note}>{this.props.review}</p>);
     }
 
     return (
@@ -246,7 +249,7 @@ class BookmarkItem extends React.Component {
           {review}
         </div>
       </Card>
-    )
+    );
   }
 }
 
@@ -261,12 +264,12 @@ BookmarkItem.propTypes = {
   onSaved: PropTypes.func.isRequired,
   context: PropTypes.string,
   review: PropTypes.string,
-  mark: PropTypes.string,
+  mark: PropTypes.string
 };
 BookmarkItem.defaultProps = {
   context: '',
   review: '',
-  mark: '',
+  mark: ''
 };
 
 export default BookmarkItem;

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 
 import BookmarkItem from './bookmark-item.jsx';
 
@@ -14,8 +14,8 @@ class BookmarkList extends React.Component {
         position: 'absolute',
         margin: '8px 0 0 8px',
         overflowY: 'scroll',
-        paddingLeft: '20px',
-      },
+        paddingLeft: '20px'
+      }
     };
   }
 
@@ -24,13 +24,13 @@ class BookmarkList extends React.Component {
     const bookmarks = this.props.bookmarks;
     return (
       <div style={styles.container} className="bookmark-list">
-          { bookmarks.map((b, i) =>
-            <BookmarkItem
+        { bookmarks.map((b, i) =>
+            (<BookmarkItem
               {...b}
               selected={b.id === this.props.selectedBookmark}
               onClick={() => this.props.onCardClick(b.id)}
               onSaved={this.props.onSaved}
-              key={i} />) }
+              key={i} />)) }
       </div>
     );
   }
@@ -40,7 +40,7 @@ BookmarkList.propTypes = {
   bookmarks: PropTypes.array.isRequired,
   selectedBookmark: PropTypes.string,
   onCardClick: PropTypes.func.isRequired,
-  onSaved: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired
 };
 
 export default BookmarkList;

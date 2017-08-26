@@ -1,22 +1,23 @@
 import alphaify from 'alphaify';
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 
 class Circle extends React.Component {
 
   getStyles() {
     return {
       unselected: {
-        fill: alphaify('#D81100', 0.6),
+        fill: alphaify('#D81100', 0.6)
       },
       selected: {
-        fill: '#DB1100',
-      },
-    }
+        fill: '#DB1100'
+      }
+    };
   }
 
   render() {
     const styles = this.getStyles();
-    let style, radius;
+    let style;
+    let radius;
     if (this.props.selected) {
       style = styles.selected;
       radius = 15;
@@ -41,7 +42,7 @@ Circle.propTypes = {
   transform: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
 };
 
 export default Circle;

@@ -1,5 +1,6 @@
+/* global $ */
 import MapGL from 'react-map-gl';
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import SVGOverlay from 'react-map-gl/src/overlays/svg.react';
 import transform from 'svg-transform';
 
@@ -10,7 +11,7 @@ const position = [37.7841393, -122.3957547];  // SF.
 const mapboxApiAccessToken = config.mapboxApiAccessToken;
 const screen = {
   width: window.innerWidth,
-  height: window.innerHeight + 10,  // Hard code 10 more px for sidebar.
+  height: window.innerHeight + 10  // Hard code 10 more px for sidebar.
 };
 
 // From http://stackoverflow.com/a/7557433/2849480
@@ -35,10 +36,10 @@ class YelpMap extends React.Component {
         longitude: position[1],
         zoom: 13,
         startDragLngLat: null,
-        isDragging: false,
+        isDragging: false
       },
       // TODO: configurable.
-      mapStyle: 'mapbox://styles/mapbox/dark-v9',
+      mapStyle: 'mapbox://styles/mapbox/dark-v9'
     };
   }
 
@@ -53,9 +54,9 @@ class YelpMap extends React.Component {
 
       // Another bookmark outside current viewport selected.
       const bookmark = this.props.bookmarks.find(b => b.id === newSelectedId);
-      let newViewport = Object.assign({}, this.state.viewport, {
+      const newViewport = Object.assign({}, this.state.viewport, {
         longitude: bookmark.location[0],
-        latitude: bookmark.location[1],
+        latitude: bookmark.location[1]
       });
       this.setState({
         viewport: newViewport
@@ -67,8 +68,8 @@ class YelpMap extends React.Component {
     return {
       svgGroup: {
         pointerEvents: 'all',
-        cursor: 'pointer',
-      },
+        cursor: 'pointer'
+      }
     };
   }
 
@@ -93,7 +94,6 @@ class YelpMap extends React.Component {
   }
 
   render() {
-    const styles = this.getStyles();
     const viewport = Object.assign({}, this.state.viewport, screen);
     return (
       <MapGL
@@ -113,10 +113,10 @@ class YelpMap extends React.Component {
 YelpMap.propTypes = {
   bookmarks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    location: PropTypes.array.isRequired,  // [Lng, Lat].
+    location: PropTypes.array.isRequired  // [Lng, Lat].
   }).isRequired).isRequired,
   selectedBookmark: PropTypes.string,
-  onCircleClick: PropTypes.func.isRequired,
+  onCircleClick: PropTypes.func.isRequired
 };
 
 export default YelpMap;

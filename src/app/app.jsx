@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
 
 import api from './api.js';
-import { Visibility } from './util';
-import { initBookmarks } from './actions';
+import {Visibility} from './util';
+import {initBookmarks} from './actions';
 
 import Master from './components/master.jsx';
 import YBK from './reducers';
@@ -23,7 +23,7 @@ window.React = React;
 // https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin();
 
-let store = createStore(YBK);
+const store = createStore(YBK);
 
 // Fetch init bookmarks!
 Promise
@@ -31,23 +31,23 @@ Promise
   .then(
     // Success.
     results => {
-      let bookmarks = results[0];
-      let notes = results[1];
+      const bookmarks = results[0];
+      const notes = results[1];
       // A map keyed on bookmark ID.
-      let bookmarkMap = new Map();
-      for (let b of bookmarks) {
+      const bookmarkMap = new Map();
+      for (const b of bookmarks) {
         bookmarkMap.set(b.id, b);
         // Add another field to indicate display or not.
         b.visible = Visibility.VISIBLE;
       }
-      for (let note of notes) {
-        const id = note['bookmark_id'];
-        let b = bookmarkMap.get(id);
+      for (const note of notes) {
+        const id = note.bookmark_id;
+        const b = bookmarkMap.get(id);
         if (b) {
           Object.assign(b, {
             context: note.context,
             review: note.review,
-            mark: note.mark,
+            mark: note.mark
           });
         }
       }
@@ -55,7 +55,7 @@ Promise
       store.dispatch(initBookmarks(bookmarkList));
     },
     // Failure.
-    () => alert('Failed to fetch bookmarks/notes!')
+    () => alert('Failed to fetch bookmarks/notes!') // eslint-disable-line no-alert
   );
 
 ReactDOM.render(

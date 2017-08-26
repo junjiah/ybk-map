@@ -1,8 +1,8 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import {
   searchBookmark,
-  filterBookmark,
+  filterBookmark
 } from '../actions';
 import BookmarkMenu from '../components/bookmark-menu.jsx';
 
@@ -12,8 +12,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
 
   onUpdateFilterCheckbox: (filters) => {
-    dispatch(filterBookmark(filters))
-  },
+    dispatch(filterBookmark(filters));
+  }
 });
 
 const UpdatableBookmarkMenu = connect(null, mapDispatchToProps)(BookmarkMenu);

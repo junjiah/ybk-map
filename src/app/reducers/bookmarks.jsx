@@ -1,44 +1,42 @@
-import { Visibility } from '../util';
+import {Visibility} from '../util';
 
 export const bookmarks = (state = [], action) => {
   switch (action.type) {
-    case 'EDIT_BOOKMARK_NOTE':
-      return state.map(b => (
+  case 'EDIT_BOOKMARK_NOTE':
+    return state.map(b => (
         // Overwrite with updated content.
         b.id === action.id ? Object.assign({}, b, action.updated) : b
       ));
-    case 'INIT_BOOKMARKS':
-      return action.bookmarks;
-    case 'SEARCH_BOOKMARK':
-      return state.map(b =>
+  case 'INIT_BOOKMARKS':
+    return action.bookmarks;
+  case 'SEARCH_BOOKMARK':
+    return state.map(b =>
         Object.assign({}, b,
-          { visible: matchSearch(action.text, b) })
+          {visible: matchSearch(action.text, b)})
       );
-    case 'FILTER_BOOKMARK':
-      const filters = action.filters;
-      return state.map(b =>
+  case 'FILTER_BOOKMARK':
+    return state.map(b =>
         Object.assign({}, b,
-          { visible: matchFilters(action.filters, b) })
+          {visible: matchFilters(action.filters, b)})
       );
-    default:
-      return state;
+  default:
+    return state;
   }
 };
 
 export const selected = (state = null, action) => {
   switch (action.type) {
-    case 'SELECT_BOOKMARK':
-      if (state === action.id) {
-        // Unselect.
-        return null;
-      } else {
-        return action.id;
-      }
-    case 'EDIT_BOOKMARK_NOTE':
-      // Focus on currently selected bookmark.
-      return action.id;
-    default:
-      return state;
+  case 'SELECT_BOOKMARK':
+    if (state === action.id) {
+      // Unselect.
+      return null;
+    }
+    return action.id;
+  case 'EDIT_BOOKMARK_NOTE':
+    // Focus on currently selected bookmark.
+    return action.id;
+  default:
+    return state;
   }
 };
 
@@ -61,11 +59,9 @@ function matchSearch(searchStr, bookmark) {
       if (!categories.some(c => c.startsWith(token.substr(2)))) {
         return bookmark.visible | Visibility.FILTER_BY_SEARCH;
       }
-    } else {
+    } else if (!name.includes(token)) {
       // Match by name.
-      if (!name.includes(token)) {
-        return bookmark.visible | Visibility.FILTER_BY_SEARCH;
-      }
+      return bookmark.visible | Visibility.FILTER_BY_SEARCH;
     }
   }
   // Unfilter.
@@ -86,8 +82,8 @@ function matchFilters(filters, bookmark) {
   } else if (!bookmark.mark && !filters.willTry) {
     // Not marked and should filter.
     return bookmark.visible | Visibility.FILTER_BY_MARK;
-  } else {
-    // Unfilter.
-    return bookmark.visible & ~Visibility.FILTER_BY_MARK;
   }
+    // Unfilter.
+  return bookmark.visible & ~Visibility.FILTER_BY_MARK;
+
 }

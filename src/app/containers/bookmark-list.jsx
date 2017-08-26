@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import api from '../api.js';
-import { Visibility } from '../util';
+import {Visibility} from '../util';
 import {
   selectBookmark,
   editBookmarkNote
@@ -10,8 +10,8 @@ import BookmarkList from '../components/bookmark-list.jsx';
 
 const mapStateToProps = (state) => {
   return {
-    bookmarks: state.bookmarks.filter(b => b.visible == Visibility.VISIBLE),
-    selectedBookmark: state.selected,
+    bookmarks: state.bookmarks.filter(b => b.visible === Visibility.VISIBLE),
+    selectedBookmark: state.selected
   };
 };
 
@@ -26,10 +26,9 @@ const mapDispatchToProps = (dispatch) => ({
       return api.editNote({id, contentType, content});
     });
     Promise.all(promises).then(
-      // Success.
-      () => { dispatch(editBookmarkNote(id, updated)) },
-      // Fail.
-      () => { alert(`Failed to save content for bookmark ${id}`) }
+      () => dispatch(editBookmarkNote(id, updated)),
+      // eslint-disable-next-line no-alert
+      () => alert(`Failed to save content for bookmark ${id}`)
     );
   }
 });

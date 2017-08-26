@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import Checkbox from 'material-ui/lib/checkbox';
 import IconButton from 'material-ui/lib/icon-button';
 import TextField from 'material-ui/lib/text-field';
@@ -23,9 +23,9 @@ class BookmarkMenu extends React.Component {
       filters: {
         good: true,
         bad: true,
-        willTry: true,
+        willTry: true
       }
-    }
+    };
   }
 
   getStyles() {
@@ -35,37 +35,37 @@ class BookmarkMenu extends React.Component {
         top: '8px',
         left: '8px',
         margin: 0,
-        zIndex: 1,
+        zIndex: 1
       },
       container: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column'
       },
       popover: {
-        marginLeft:'8px',
-        display: 'flex',
+        marginLeft: '8px',
+        display: 'flex'
       },
       searchBox: {
         paddingLeft: '12px',
         fontSize: 'large',
-        width: '264px',
+        width: '264px'
       },
       checkboxContainer: {
         paddingLeft: '6px',
-        fontSize: '20px',
+        fontSize: '20px'
       },
       checkbox: {
         float: 'left',
         width: '1%',
         margin: '6px !important',
         marginRight: '20px !important',
-        paddingTop: '5px',
+        paddingTop: '5px'
       }
     };
   }
 
   _onClickSearch() {
-    const { isSearching } = this.state;
+    const {isSearching} = this.state;
     this.setState({isSearching: !isSearching}, () => {
       if (isSearching) {
         // Clicked to close the search box. Reset search filter.
@@ -82,12 +82,12 @@ class BookmarkMenu extends React.Component {
   }
 
   _onClickFilterBox() {
-    const { isFiltering }= this.state;
-    let newState = { isFiltering: !isFiltering };
+    const {isFiltering} = this.state;
+    const newState = {isFiltering: !isFiltering};
     let callback = () => {};
     if (isFiltering) {
       // Clicked to close the filter box. Reset filters.
-      const filters = { good: true, bad: true, willTry: true };
+      const filters = {good: true, bad: true, willTry: true};
       newState.filters = filters;
       callback = () => this.props.onUpdateFilterCheckbox(filters);
     }
@@ -98,11 +98,11 @@ class BookmarkMenu extends React.Component {
   _onCheckFilter(name) {
     return (e, checked) => {
       const filters = Object.assign(
-        {}, this.state.filters, { [name]: checked });
-      this.setState({ filters }, () => {
+        {}, this.state.filters, {[name]: checked});
+      this.setState({filters}, () => {
         this.props.onUpdateFilterCheckbox(filters);
       });
-    }
+    };
   }
 
   render() {
@@ -143,15 +143,15 @@ class BookmarkMenu extends React.Component {
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
             style={styles.popover} >
             <div style={styles.checkboxContainer}>
-                <Checkbox
+              <Checkbox
                   label={<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true" />}
                   style={styles.checkbox} onCheck={this._onCheckFilter('good')}
                   defaultChecked />
-                <Checkbox
+              <Checkbox
                   label={<span className="glyphicon glyphicon-thumbs-down" aria-hidden="true" />}
                   style={styles.checkbox} onCheck={this._onCheckFilter('bad')}
                   defaultChecked />
-                <Checkbox
+              <Checkbox
                   label={<span className="glyphicon glyphicon-eye-open" aria-hidden="true" />}
                   style={styles.checkbox} onCheck={this._onCheckFilter('willTry')}
                   defaultChecked />
@@ -171,7 +171,7 @@ class BookmarkMenu extends React.Component {
 
 BookmarkMenu.propTypes = {
   onUpdateSearchBox: PropTypes.func.isRequired,
-  onUpdateFilterCheckbox: PropTypes.func.isRequired,
+  onUpdateFilterCheckbox: PropTypes.func.isRequired
 };
 
 export default BookmarkMenu;

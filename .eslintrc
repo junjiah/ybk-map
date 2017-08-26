@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint-config-uber-es2015",
+    "eslint-config-uber-jsx"
+  ],
+  "rules": {
+    "max-len": 0,
+    "func-style": 0,
+    "no-inline-comments": 0
+  }
+}

@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux';
 
-import { bookmarks, selected } from './bookmarks.jsx';
+import {bookmarks, selected} from './bookmarks.jsx';
 
 const YBK = combineReducers({
   bookmarks,
-  selected,
+  selected
 });
 
 export default YBK;
