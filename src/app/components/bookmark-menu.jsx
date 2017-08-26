@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react';
-import Checkbox from 'material-ui/lib/checkbox';
-import IconButton from 'material-ui/lib/icon-button';
-import TextField from 'material-ui/lib/text-field';
-import Paper from 'material-ui/lib/paper';
-import Popover from 'material-ui/lib/popover/popover';
+import Checkbox from 'material-ui/Checkbox';
+import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
+import Popover from 'material-ui/Popover';
 // Icons.
-import SearchIcon from 'material-ui/lib/svg-icons/action/search';
-import FilterIcon from 'material-ui/lib/svg-icons/content/filter-list';
-import SortIcon from 'material-ui/lib/svg-icons/content/sort';
-import InfoIcon from 'material-ui/lib/svg-icons/action/info';
+import SearchIcon from 'material-ui/svg-icons/action/search';
+import FilterIcon from 'material-ui/svg-icons/content/filter-list';
+import SortIcon from 'material-ui/svg-icons/content/sort';
+import InfoIcon from 'material-ui/svg-icons/action/info';
 
 class BookmarkMenu extends React.Component {
 

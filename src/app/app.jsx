@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 
@@ -60,7 +61,9 @@ Promise
 
 ReactDOM.render(
   <Provider store={store}>
-    <Master />
+    <MuiThemeProvider>
+      <Master />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('app')
 );

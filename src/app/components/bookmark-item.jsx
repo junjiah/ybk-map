@@ -1,8 +1,8 @@
 /* global $ */
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import Card from 'material-ui/lib/card/card';
-import TextField from 'material-ui/lib/text-field';
+import {Card} from 'material-ui/Card';
+import TextField from 'material-ui/TextField';
 
 const good = 'good';
 const bad = 'bad';
