@@ -50,3 +50,13 @@ export const filterBookmark = (filters) => ({
   type: 'FILTER_BOOKMARK',
   filters
 });
+
+/**
+ * Action for map viewport update.
+ *
+ * @param {object} viewport - Viewport object for map data.
+ */
+export const mapViewportUpdate = (viewport) => ({
+  type: 'MAP_VIEWPORT_UPDATE',
+  viewport
+});

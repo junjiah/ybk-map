@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import BookmarkItem from './bookmark-item.jsx';
 
@@ -37,7 +38,7 @@ class BookmarkList extends React.Component {
 }
 
 BookmarkList.propTypes = {
-  bookmarks: PropTypes.array.isRequired,
+  bookmarks: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedBookmark: PropTypes.string,
   onCardClick: PropTypes.func.isRequired,
   onSaved: PropTypes.func.isRequired

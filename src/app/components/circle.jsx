@@ -1,5 +1,6 @@
 import alphaify from 'alphaify';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class Circle extends React.Component {
 

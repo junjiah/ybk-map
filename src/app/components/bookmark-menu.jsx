@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
@@ -51,14 +52,17 @@ class BookmarkMenu extends React.Component {
         width: '264px'
       },
       checkboxContainer: {
-        paddingLeft: '6px',
-        fontSize: '20px'
+        paddingLeft: '16px',
+        fontSize: '20px',
+        width: '264px',
+        height: '48px',
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center'
       },
       checkbox: {
         float: 'left',
-        width: '1%',
-        margin: '6px !important',
-        marginRight: '20px !important',
+        width: '33.33333333%',
         paddingTop: '5px'
       }
     };

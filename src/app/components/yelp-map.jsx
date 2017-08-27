@@ -1,18 +1,14 @@
 /* global $ */
-import MapGL from 'react-map-gl';
-import React, {PropTypes} from 'react';
+import ReactMapGL from 'react-map-gl';
+import React from 'react';
+import PropTypes from 'prop-types';
 import SVGOverlay from 'react-map-gl/src/overlays/svg.react';
 import transform from 'svg-transform';
 
 import Circle from './circle.jsx';
 import config from '../config.js';
 
-const position = [37.7841393, -122.3957547];  // SF.
 const mapboxApiAccessToken = config.mapboxApiAccessToken;
-const screen = {
-  width: window.innerWidth,
-  height: window.innerHeight + 10  // Hard code 10 more px for sidebar.
-};
 
 // From http://stackoverflow.com/a/7557433/2849480
 function inViewport($ele) {
@@ -28,21 +24,6 @@ function inViewport($ele) {
 
 class YelpMap extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      viewport: {
-        latitude: position[0],
-        longitude: position[1],
-        zoom: 13,
-        startDragLngLat: null,
-        isDragging: false
-      },
-      // TODO: configurable.
-      mapStyle: 'mapbox://styles/mapbox/dark-v9'
-    };
-  }
-
   componentWillReceiveProps(nextProps) {
     const newSelectedId = nextProps.selectedBookmark;
     // Also need to check `newSelectedId` is not null.
@@ -54,13 +35,11 @@ class YelpMap extends React.Component {
 
       // Another bookmark outside current viewport selected.
       const bookmark = this.props.bookmarks.find(b => b.id === newSelectedId);
-      const newViewport = Object.assign({}, this.state.viewport, {
+      const newViewport = Object.assign({}, this.props.mapViewport, {
         longitude: bookmark.location[0],
         latitude: bookmark.location[1]
       });
-      this.setState({
-        viewport: newViewport
-      });
+      this.props.onChangeViewport(newViewport);
     }
   }
 
@@ -94,17 +73,16 @@ class YelpMap extends React.Component {
   }
 
   render() {
-    const viewport = Object.assign({}, this.state.viewport, screen);
     return (
-      <MapGL
-        {...viewport}
-        mapStyle={this.state.mapStyle}
+      <ReactMapGL
+        {...this.props.mapViewport}
+        mapStyle={'mapbox://styles/mapbox/dark-v9'}
         mapboxApiAccessToken={mapboxApiAccessToken}
-        onChangeViewport={ (vp) => this.setState({viewport: vp}) }>
+        onChangeViewport={this.props.onChangeViewport.bind(this)}>
         <SVGOverlay
-          {...viewport}
+          {...this.props.mapViewport}
           redraw={this._redrawSVGOverlay.bind(this)} />
-      </MapGL>
+      </ReactMapGL>
     );
   }
 
@@ -116,7 +94,8 @@ YelpMap.propTypes = {
     location: PropTypes.array.isRequired  // [Lng, Lat].
   }).isRequired).isRequired,
   selectedBookmark: PropTypes.string,
-  onCircleClick: PropTypes.func.isRequired
+  onCircleClick: PropTypes.func.isRequired,
+  onChangeViewport: PropTypes.func.isRequired
 };
 
 export default YelpMap;

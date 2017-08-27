@@ -1,5 +1,6 @@
 /* global $ */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import {Card} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
@@ -14,6 +15,35 @@ class BookmarkItem extends React.Component {
     this.state = {
       isEditing: false
     };
+  }
+
+  componentDidUpdate() {
+    if (this.props.selected) {
+      // Scroll to the current selected item if not in view.
+      const $ele = $(ReactDOM.findDOMNode(this));
+      const $container = $ele.parent();
+
+      // Fixme: a hack to determine mobile or desktop.
+      const mobile = $container.css('display') === 'flex';
+
+      if (!mobile) {
+        let scrollTop = $ele.offset().top - $container.offset().top;
+        scrollTop += $container.scrollTop();
+        // Scroll to the middle.
+        scrollTop -= (window.innerHeight / 2 - $ele.height() / 2);
+
+        $container.animate({
+          scrollTop
+        }, 250);
+      } else {
+        let scrollLeft = $ele.offset().left - $container.offset().left;
+        scrollLeft += $container.scrollLeft();
+        // Scroll to the middle.
+        scrollLeft -= (window.innerWidth - $ele.outerWidth()) / 2;
+
+        $container.scrollLeft(scrollLeft);
+      }
+    }
   }
 
   getStyles() {
@@ -70,35 +100,6 @@ class BookmarkItem extends React.Component {
       styles.card.backgroundColor = '#b3ffb3';
     }
     return Object.freeze(styles);
-  }
-
-  componentDidUpdate() {
-    if (this.props.selected) {
-      // Scroll to the current selected item if not in view.
-      const $ele = $(ReactDOM.findDOMNode(this));
-      const $container = $ele.parent();
-
-      // Fixme: a hack to determine mobile or desktop.
-      const mobile = $container.css('display') === 'flex';
-
-      if (!mobile) {
-        let scrollTop = $ele.offset().top - $container.offset().top;
-        scrollTop += $container.scrollTop();
-        // Scroll to the middle.
-        scrollTop -= (window.innerHeight / 2 - $ele.height() / 2);
-
-        $container.animate({
-          scrollTop
-        }, 250);
-      } else {
-        let scrollLeft = $ele.offset().left - $container.offset().left;
-        scrollLeft += $container.scrollLeft();
-        // Scroll to the middle.
-        scrollLeft -= (window.innerWidth - $ele.outerWidth()) / 2;
-
-        $container.scrollLeft(scrollLeft);
-      }
-    }
   }
 
   _onClickCard(e) {
@@ -257,7 +258,7 @@ BookmarkItem.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  categories: PropTypes.array.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
   rating: PropTypes.number.isRequired,
   selected: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
