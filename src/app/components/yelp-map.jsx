@@ -1,8 +1,7 @@
 /* global $ */
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, {SVGOverlay} from 'react-map-gl';
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGOverlay from 'react-map-gl/src/overlays/svg.react';
 import transform from 'svg-transform';
 
 import Circle from './circle.jsx';
@@ -39,7 +38,7 @@ class YelpMap extends React.Component {
         longitude: bookmark.location[0],
         latitude: bookmark.location[1]
       });
-      this.props.onChangeViewport(newViewport);
+      this.props.onViewportChange(newViewport);
     }
   }
 
@@ -78,7 +77,7 @@ class YelpMap extends React.Component {
         {...this.props.mapViewport}
         mapStyle={'mapbox://styles/mapbox/dark-v9'}
         mapboxApiAccessToken={mapboxApiAccessToken}
-        onChangeViewport={this.props.onChangeViewport.bind(this)}>
+        onViewportChange={this.props.onViewportChange.bind(this)}>
         <SVGOverlay
           {...this.props.mapViewport}
           redraw={this._redrawSVGOverlay.bind(this)} />
@@ -95,7 +94,7 @@ YelpMap.propTypes = {
   }).isRequired).isRequired,
   selectedBookmark: PropTypes.string,
   onCircleClick: PropTypes.func.isRequired,
-  onChangeViewport: PropTypes.func.isRequired
+  onViewportChange: PropTypes.func.isRequired
 };
 
 export default YelpMap;

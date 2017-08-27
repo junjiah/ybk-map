@@ -117,7 +117,7 @@ class BookmarkMenu extends React.Component {
         <div style={styles.container}>
           <IconButton
             title="Search" data-toggle="tooltip" id="search-button"
-            onTouchTap={this._onClickSearch.bind(this)} >
+            onTouchTap={this._onClickSearch.bind(this)}>
             <SearchIcon />
           </IconButton>
           <Popover
@@ -126,7 +126,7 @@ class BookmarkMenu extends React.Component {
             anchorEl={document.getElementById('search-button')}
             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            style={styles.popover} >
+            style={styles.popover}>
             <TextField
               id="search-box"
               underlineShow={false}
@@ -136,7 +136,7 @@ class BookmarkMenu extends React.Component {
           </Popover>
           <IconButton
             title="Filter" data-toggle="tooltip" id="filter-button"
-            onTouchTap={this._onClickFilterBox.bind(this)} >>
+            onTouchTap={this._onClickFilterBox.bind(this)}>
             <FilterIcon />
           </IconButton>
           <Popover
@@ -145,7 +145,7 @@ class BookmarkMenu extends React.Component {
             anchorEl={document.getElementById('filter-button')}
             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            style={styles.popover} >
+            style={styles.popover}>
             <div style={styles.checkboxContainer}>
               <Checkbox
                   label={<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true" />}

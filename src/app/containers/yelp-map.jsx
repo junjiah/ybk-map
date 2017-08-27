@@ -9,7 +9,7 @@ import YelpMap from '../components/yelp-map.jsx';
 class MapConainer extends Component {
 
   componentDidMount() {
-    this._onChangeViewport({
+    this._onViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
     });
@@ -23,14 +23,14 @@ class MapConainer extends Component {
 
   @autobind
   _onResize() {
-    this._onChangeViewport({
+    this._onViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
     });
   }
 
   @autobind
-  _onChangeViewport(viewport) {
+  _onViewportChange(viewport) {
     this.props.dispatch(mapViewportUpdate(viewport));
   }
 
@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
   onCircleClick: (id) => {
     dispatch(selectBookmark(id));
   },
-  onChangeViewport: (viewport) => {
+  onViewportChange: (viewport) => {
     dispatch(mapViewportUpdate(viewport));
   },
   dispatch
