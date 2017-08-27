@@ -9,10 +9,7 @@ import YelpMap from '../components/yelp-map.jsx';
 class MapConainer extends Component {
 
   componentDidMount() {
-    this._onViewportChange({
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
+    this._onResize();
     // Bind listeners for window resize.
     window.addEventListener('resize', this._onResize);
   }
@@ -23,15 +20,10 @@ class MapConainer extends Component {
 
   @autobind
   _onResize() {
-    this._onViewportChange({
+    this.props.onViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
     });
-  }
-
-  @autobind
-  _onViewportChange(viewport) {
-    this.props.dispatch(mapViewportUpdate(viewport));
   }
 
   render() {
@@ -62,8 +54,7 @@ const mapDispatchToProps = dispatch => ({
   },
   onViewportChange: (viewport) => {
     dispatch(mapViewportUpdate(viewport));
-  },
-  dispatch
+  }
 });
 
 const SelectableYelpMap = connect(
