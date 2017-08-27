@@ -75,9 +75,9 @@ class YelpMap extends React.Component {
     return (
       <ReactMapGL
         {...this.props.mapViewport}
-        mapStyle={'mapbox://styles/mapbox/dark-v9'}
+        mapStyle={'mapbox://styles/mapbox/emerald-v8'}
         mapboxApiAccessToken={mapboxApiAccessToken}
-        onViewportChange={this.props.onViewportChange.bind(this)}>
+        onViewportChange={this.props.onViewportChange}>
         <SVGOverlay
           {...this.props.mapViewport}
           redraw={this._redrawSVGOverlay.bind(this)} />
